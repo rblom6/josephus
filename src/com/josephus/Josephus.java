@@ -1,5 +1,5 @@
 /*
-This program solves the Josephus problem.  The Josephus problem
+This program solves the Josephus problem. The Josephus problem
 involves a circle of N people who are to be killed.  Every
 Kth person is killed until one person is left.  This program 
 computes the position of that final person.
