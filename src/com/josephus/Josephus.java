@@ -6,22 +6,24 @@ computes the position of that final person.
 
 The program computes this position by implementing a linked list
 with its entries representing people in the circle.  The position
-of the next entry to remove is found by the index of the entry
-removed before it and K.  Adjustments in the position are made so
+of the next person to remove is found by the position of the last
+person removed and K.  Adjustments in the position are made so
 that the position wraps around the list.  After removing N-1
-entries, the entry that remains is the position of the final
-person.   
+people, we arrive at the entry of the linked list representing
+the final person.   
 */
 
 package com.josephus;
 
 
 import java.util.LinkedList;
+import java.util.Scanner;
 
 public class Josephus{
 
 
-    //initializes a lineup of entries ascending from 1 to N
+    // Initializes a lineup of people with 
+	// positions ascending from 1 to N.
     public static LinkedList<Integer> makeList(int N){
             LinkedList<Integer> lineup = new LinkedList<Integer>();
             for(int i = 1; i < N + 1; i++){
@@ -32,47 +34,58 @@ public class Josephus{
     }
 
 
-    //removes an entry from the list at a given position
-    public static int removeOne(int position, LinkedList<Integer> name){
-         int index = position - 1;
+    // Removes a person from the list at a given position
+    public static int removeOne(int positionToRemove, LinkedList<Integer> name){
+         int index = positionToRemove - 1;
          name.remove(index);
 
-         return index;
+         return positionToRemove;
     }
 
 
-    //removes all the entries in the list except the last one (which is
-    //the answer)
-    public static LinkedList<Integer> removeNumbers(int N,int K){
+    // Removes all the people in the list except the last one (which is
+    // the answer).
+    public static LinkedList<Integer> removePeople(int N,int K){
      
         LinkedList<Integer> temp = makeList(N);
-        int indexOfNumRemoved = 0;
-        for(int i = 0; i < N-1; i++){
-            int position = indexOfNumRemoved + K;
-            position = resetPosition(i,N,position);
-            indexOfNumRemoved = removeOne(position, temp);
+        int totalToRemove = N - 1;
+        int positionOfLastRemoved = -1;
+        for(int removalNumber = 1; removalNumber <= totalToRemove; removalNumber++){
+            int positionToRemove = calculatePositionToRemove(N - removalNumber + 1, K, positionOfLastRemoved);
+            positionOfLastRemoved = removeOne(positionToRemove, temp);
         }
         
         return temp;
     }
 
 
-    //allows the position to wrap around the list
-    public static int resetPosition(int i, int N, int position){
-                if((N-i)>=position){
-                    return position;
-                }else if((N-i)<position && position%(N-i) == 0){
-                    return (N-i);
+    // Calculates the next person to remove
+    // Allows for wrapping around the list
+    public static int calculatePositionToRemove(int numRemaining, int K, int positionOfLastRemoved){
+    			
+    			// Add K for an initial positionToRemove
+    			int positionToRemove;
+    			if(positionOfLastRemoved == -1) {
+    				positionToRemove = K;
+    			}else {
+    				positionToRemove = positionOfLastRemoved + K - 1;
+    			}
+    			
+    			// Adjust positionToRemove to account for wrapping around the list
+    			if((numRemaining) >= positionToRemove){
+                    return positionToRemove;
+                }else if((numRemaining)<positionToRemove && positionToRemove%(numRemaining) == 0){
+                	return (numRemaining);
                 }else{
-                    return position%(N-i);
+                    return ( positionToRemove%(numRemaining) );
                 }
     }
  
 
-    //solves Josephus problem
+    // Solves the Josephus problem
     public static int josephus(int N, int K){
         LinkedList<Integer> lineup = makeList(N);
-        lineup = removeNumbers(N,K);
+        lineup = removePeople(N,K);
         int answer = lineup.poll();
         
         return answer;
@@ -81,9 +94,29 @@ public class Josephus{
 
     public static void main(String[] args)
     {
-        int N = Integer.parseInt(args[0]);
-        int K = Integer.parseInt(args[1]);
-        System.out.println("Calling josephus(N="+N+", K="+K+")");
-        System.out.println(josephus(N, K));
+        Scanner scan = new Scanner(System.in);
+        
+        System.out.println("Hello! Let's solve the Josephus problem!");
+        
+        String again = "yes";
+        do {
+	       
+	        System.out.println("\nHow many people are in the circle?");
+	        int N = scan.nextInt();
+	        
+	        System.out.println("How many people to skip before the unlucky thing happens?");
+	        int K = scan.nextInt();
+	    	
+	        System.out.println("You wanna be at position " + josephus(N, K) + " to keep surviving!");
+	        
+	        System.out.println("Wanna play again? (yes/no)");
+	        scan.nextLine();
+	        again = scan.nextLine();
+	        
+	        
+        } while(again.equals("yes"));
+        
+        System.out.println("See ya later!");
+        
     }
 }
