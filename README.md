@@ -1,13 +1,14 @@
 # josephus
 
-Check out an interactive walkthrough on solving the Josephus
-Problem at the site here:
-https://robbieblom.com/?page_id=123
 
 The programs in this repository solve the Josephus problem. The Josephus problem
 involves a circle of N people who are to be killed.  Every
 Kth person is killed until one person is left.  These programs 
 compute the position of that final person.
+
+Check out an interactive walkthrough on solving the Josephus
+Problem at the site here:
+https://robbieblom.com/?page_id=123
 
 Josephus.java computes this position by implementing a linked list
 with its entries representing people in the circle.  The position
