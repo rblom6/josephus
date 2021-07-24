@@ -96,7 +96,7 @@ public class Josephus{
     {
         Scanner scan = new Scanner(System.in);
         
-        System.out.println("Hello! Let's solve the Josephus problem!");
+        System.out.println("Hello! Let's solve the Josephus Problem!");
         
         String again = "yes";
         do {
@@ -104,7 +104,7 @@ public class Josephus{
 	        System.out.println("\nHow many people are in the circle?");
 	        int N = scan.nextInt();
 	        
-	        System.out.println("How many people to skip before the unlucky thing happens?");
+	        System.out.println("How many people to count before the unlucky thing happens?");
 	        int K = scan.nextInt();
 	    	
 	        System.out.println("You wanna be at position " + josephus(N, K) + " to keep surviving!");
